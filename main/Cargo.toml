@@ -1,0 +1,64 @@
+[package]
+
+name = "main"
+version = "0.1.0"
+edition = "2021"
+author = "KuuwangE"
+description = "This is a boilerplate packages from Kuuwange"
+license = "MIT"
+homepage = "https://blog.ql.gl/"
+repository = "https://github.com/shellcodesniper/"
+bugs = ""
+vcs = "git"
+
+[profile.dev]
+
+opt-level = 0
+debug = true
+overflow-checks = true
+lto = false
+rpath = false
+incremental = true
+
+[profile.release]
+
+opt-level = "z"
+incremental = false
+debug = false
+lto = true
+panic = 'unwind'
+codegen-units = 16
+# codegen units 를 변경하면, 빌드시에 쓰레딩 가능하지만 최적화가 줄어듬
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+tokio-util = { version = "0", optional = true }
+futures= { version = "0" }
+lazy_static = "1"
+atoi = "1"
+bytes = "1"
+rand = "0"
+chrono = "0"
+chrono-tz = "0"
+log = "0"
+colour = "0"
+log4rs = "1"
+
+serde = { version = "1", features= ["derive"]}
+serde_json = { version = "1", default-features = true, features = ["alloc"]}
+serde_urlencoded = "0"
+
+dotenv = "0"
+dotenvhack = { version = "*", path = "../dotenvhack" }
+
+hyper = { version = "0", features = ["full"] }
+hyper-tls = "0"
+
+hex-literal = "0"
+unescape = "0"
+
+# slack-hook = "0"
+
+# rayon = "1"
+# rusqlite = { version = "0", features = ["bundled", "chrono"] }
+# redis = { version = "0", features = ["tokio-native-tls-comp", "tokio-comp"]}

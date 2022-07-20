@@ -1,0 +1,11 @@
+target/
+releases/*
+documents/
+logs/
+
+dumps/
+
+.env.dev
+.dev.env
+.prod.env
+*.env
