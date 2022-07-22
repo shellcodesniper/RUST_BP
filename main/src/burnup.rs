@@ -4,12 +4,25 @@ use log::LevelFilter;
 
 use log4rs::{ append::file::FileAppender, encode::pattern::PatternEncoder, config::{Appender, Config, Root}, append::console::ConsoleAppender};
 
+// pub fn to_string(s: &str) -> String {
+//   String::from_utf8(s.as_bytes().to_vec())
+//     .unwrap_or(String::from(""))
+// }
+
+
 pub fn init_logger() {
   /*
    * 로거 동기화를 위함
    */
   let log_value = dotenv!("LOG_LEVEL");
-  std::env::set_var("RUST_LOG", log_value);
+  let log_level = match log_value {
+    "trace" => LevelFilter::Trace,
+    "debug" => LevelFilter::Debug,
+    "info" => LevelFilter::Info,
+    "warn" => LevelFilter::Warn,
+    "error" => LevelFilter::Error,
+    _ => LevelFilter::Off,
+  };
 
   let stdout = if cfg!(debug_assertions) {
     ConsoleAppender::builder()
@@ -32,7 +45,7 @@ pub fn init_logger() {
 				Root::builder()
 					.appender("logfile")
 					.appender("stdout")
-						.build(LevelFilter::Debug)
+						.build(log_level)
 			).unwrap();
 
 	log4rs::init_config(config).unwrap();
@@ -45,7 +58,6 @@ pub fn init_logger() {
 }
 
 pub fn check_env() -> bool {
-  // NOTE: 서버 환경 체크
   /*
    * 서버 환경 체크를 위한 루틴
    * 서버 시간대가 KST 인지 확인
